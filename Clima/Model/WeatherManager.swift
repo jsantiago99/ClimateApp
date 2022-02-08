@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol WeatherManagerDelegate{
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
@@ -15,16 +16,24 @@ protocol WeatherManagerDelegate{
 struct WeatherManager {
     //Define url with api
     //APPLE checks if the url is secure thus, https needs to be at the beginning
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&appid=ada16f3dd1810b6545c838bc01761020&units=imperial"
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&appid=ada16f3dd1810b6545c838bc01761020&units=metric"
     
     var delegate: WeatherManagerDelegate?
     
-    func fetchWeather(cityname: String) {
-        //to query an inputted name specify and add it on to the url
-        let urlString = "\(weatherURL)&q=\(cityname)"
-        //this performs the request to create the session and task to retrieve data through networking
-        performRequest(with: urlString)
-    }
+    
+    func fetchWeather(cityName: String) {
+            //to query an inputted name specify and add it on to the url
+            let urlString = "\(weatherURL)&q=\(cityName)"
+            //this performs the request to create the session and task to retrieve data through networking
+            performRequest(with: urlString)
+        }
+    
+    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+            //to query an inputted name specify and add it on to the url
+            let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
+            //this performs the request to create the session and task to retrieve data through networking
+            performRequest(with: urlString)
+        }
     
     func performRequest(with urlString: String) {
         
